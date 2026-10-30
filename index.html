@@ -2871,44 +2871,23 @@ link.getAttribute("href")==="#"+current
 
 });
 
-/* CONTACT FORM */
+document.getElementById("contactForm").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-document.getElementById("contactForm").addEventListener("submit",event=>{
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const subject = document.getElementById("subject").value.trim();
+    const message = document.getElementById("message").value.trim();
 
-event.preventDefault();
+    const recipient = "rufaiadeola09@gmail.com";
 
-const name=document.getElementById("name").value.trim();
-const email=document.getElementById("email").value.trim();
-const subject=document.getElementById("subject").value.trim();
-const message=document.getElementById("message").value.trim();
+    const body = `Name: ${name}
+Email: ${email}
 
-const recipient="YOUR_EMAIL@example.com";
-
-if(recipient==="YOUR_EMAIL@example.com"){
-
-alert("Replace YOUR_EMAIL@example.com with your real email address in the JavaScript.");
-
-return;
-
-}
-
-const body=
-`Hello Rachel,
-
-My name is ${name}.
-
-My email is ${email}.
-
+Message:
 ${message}`;
 
-const mailto=
-`mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-window.location.href=mailto;
-
+    window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 });
-
-</script>
-
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#08060e">
 <meta name="description" content="Rufai Adeola Rachel — Frontend Developer creating beautiful digital experiences.">
 <title>Rufai Adeola Rachel | Frontend Developer</title>
@@ -32,6 +32,10 @@ box-sizing:border-box;
 scroll-behavior:smooth;
 }
 
+html{
+scroll-padding-top:85px;
+}
+
 body{
 background:var(--bg);
 color:var(--white);
@@ -49,10 +53,16 @@ font-family:inherit;
 cursor:pointer;
 }
 
+img{
+max-width:100%;
+}
+
 ::selection{
 background:var(--pink);
 color:white;
 }
+
+/* ANIMATED BACKGROUND */
 
 #backgroundCanvas{
 position:fixed;
@@ -103,7 +113,7 @@ z-index:3000;
 box-shadow:0 0 15px var(--pink);
 }
 
-/* PRELOADER */
+/* LOADER */
 
 #loader{
 position:fixed;
@@ -168,7 +178,7 @@ display:flex;
 align-items:center;
 justify-content:space-between;
 z-index:1000;
-background:rgba(8,6,14,.78);
+background:rgba(8,6,14,.85);
 backdrop-filter:blur(22px);
 border-bottom:1px solid var(--border);
 }
@@ -180,7 +190,8 @@ font-weight:800;
 letter-spacing:-2px;
 }
 
-.logo span{
+.logo span,
+.footer-logo span{
 background:var(--gradient);
 background-clip:text;
 -webkit-background-clip:text;
@@ -321,6 +332,7 @@ background:rgba(147,51,234,.18);
 filter:blur(130px);
 border-radius:50%;
 animation:heroGlow 8s infinite alternate;
+pointer-events:none;
 }
 
 .hero::after{
@@ -334,6 +346,7 @@ background:rgba(255,79,163,.13);
 filter:blur(130px);
 border-radius:50%;
 animation:heroGlow 9s infinite alternate-reverse;
+pointer-events:none;
 }
 
 @keyframes heroGlow{
@@ -445,24 +458,41 @@ transform:translateY(-6px) rotate(8deg);
 box-shadow:0 0 25px rgba(255,79,163,.35);
 }
 
+/* PROFILE IMAGE - RESPONSIVE FIX */
+
 .hero-image{
+width:100%;
+min-width:0;
 display:flex;
 justify-content:center;
 align-items:center;
 position:relative;
+padding:25px;
 }
 
 .image-ring{
-width:min(390px,85%);
-aspect-ratio:1;
+width:clamp(250px,32vw,390px);
+max-width:100%;
+aspect-ratio:1/1;
+flex-shrink:0;
 border-radius:50%;
 padding:9px;
-background:conic-gradient(from 0deg,#ff4fa3,#8b5cf6,#e879f9,#ff4fa3);
-animation:rotate 9s linear infinite;
+position:relative;
+isolation:isolate;
 box-shadow:0 0 90px rgba(168,85,247,.25);
 }
 
-@keyframes rotate{
+.image-ring::before{
+content:"";
+position:absolute;
+inset:0;
+border-radius:50%;
+background:conic-gradient(from 0deg,#ff4fa3,#8b5cf6,#e879f9,#ff4fa3);
+animation:rotateRing 9s linear infinite;
+z-index:-1;
+}
+
+@keyframes rotateRing{
 to{transform:rotate(360deg)}
 }
 
@@ -479,37 +509,37 @@ overflow:hidden;
 width:100%;
 height:100%;
 border-radius:50%;
+overflow:hidden;
+background:linear-gradient(135deg,#241331,#49205d,#171020);
 display:flex;
 align-items:center;
 justify-content:center;
-flex-direction:column;
-gap:15px;
-background:linear-gradient(135deg,#241331,#49205d,#171020);
 }
 
-.profile-placeholder i{
-font-size:100px;
-color:#e9b2ff;
+.profile-placeholder img{
+display:block;
+width:100%;
+height:100%;
+max-width:none;
+object-fit:cover;
+object-position:center 25%;
+border-radius:50%;
 }
 
-.profile-placeholder span{
-font-family:'Space Grotesk',sans-serif;
-font-size:14px;
-font-weight:700;
-color:#e9b2ff;
-}
+/* FLOATING LABELS */
 
 .floating-card{
 position:absolute;
-right:-5px;
+right:0;
 top:15%;
 padding:16px 20px;
-background:rgba(25,17,34,.9);
+background:rgba(25,17,34,.95);
 border:1px solid var(--border);
 border-radius:12px;
 backdrop-filter:blur(15px);
 font-size:12px;
 animation:float 4s ease-in-out infinite;
+z-index:3;
 }
 
 .floating-card i{
@@ -523,12 +553,13 @@ left:0;
 bottom:12%;
 padding:16px 20px;
 border-radius:12px;
-background:rgba(25,17,34,.9);
+background:rgba(25,17,34,.95);
 border:1px solid var(--border);
 backdrop-filter:blur(15px);
 font-size:12px;
 font-weight:700;
 animation:float 5s ease-in-out infinite;
+z-index:3;
 }
 
 .image-tag i{
@@ -548,6 +579,7 @@ transform:translateX(-50%);
 font-size:10px;
 letter-spacing:4px;
 color:#8d8095;
+white-space:nowrap;
 }
 
 .scroll-indicator i{
@@ -560,7 +592,7 @@ animation:bounce 1.5s infinite;
 50%{transform:translateY(7px)}
 }
 
-/* MOVING MARQUEE */
+/* MARQUEE */
 
 .marquee{
 overflow:hidden;
@@ -707,6 +739,7 @@ margin-bottom:8px;
 .detail span{
 font-size:13px;
 color:#e3dce8;
+overflow-wrap:anywhere;
 }
 
 /* SKILLS */
@@ -787,35 +820,33 @@ background:linear-gradient(180deg,#09070d,#110b17);
 overflow:hidden;
 }
 
-.projects::before{
-content:"";
-position:absolute;
-width:400px;
-height:400px;
-left:-250px;
-top:30%;
-background:rgba(168,85,247,.12);
-filter:blur(120px);
-pointer-events:none;
-}
-
+.projects::before,
 .projects::after{
 content:"";
 position:absolute;
 width:400px;
 height:400px;
+filter:blur(120px);
+pointer-events:none;
+}
+
+.projects::before{
+left:-250px;
+top:30%;
+background:rgba(168,85,247,.12);
+}
+
+.projects::after{
 right:-250px;
 bottom:10%;
 background:rgba(255,79,163,.1);
-filter:blur(120px);
-pointer-events:none;
 }
 
 .project-grid{
 max-width:1250px;
 margin:auto;
 display:grid;
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:repeat(2,minmax(0,1fr));
 gap:35px;
 position:relative;
 z-index:2;
@@ -824,6 +855,7 @@ z-index:2;
 .project-card{
 position:relative;
 overflow:hidden;
+min-width:0;
 border-radius:20px;
 background:rgba(19,14,25,.92);
 border:1px solid var(--border);
@@ -831,28 +863,9 @@ transition:transform .4s,border-color .4s,box-shadow .4s;
 transform-style:preserve-3d;
 }
 
-.project-card::before{
-content:"";
-position:absolute;
-inset:0;
-padding:1px;
-border-radius:20px;
-background:var(--gradient);
--webkit-mask-composite:xor;
-mask-composite:exclude;
-opacity:0;
-transition:.4s;
-pointer-events:none;
-z-index:3;
-}
-
 .project-card:hover{
 border-color:rgba(255,79,163,.5);
 box-shadow:0 25px 70px rgba(0,0,0,.45),0 0 35px rgba(168,85,247,.12);
-}
-
-.project-card:hover::before{
-opacity:1;
 }
 
 .project-image{
@@ -871,7 +884,7 @@ transition:transform .8s cubic-bezier(.2,.7,.2,1),filter .5s;
 }
 
 .project-card:hover .project-image img{
-transform:scale(1.12);
+transform:scale(1.08);
 filter:saturate(1.2);
 }
 
@@ -892,6 +905,7 @@ z-index:2;
 display:flex;
 justify-content:space-between;
 align-items:center;
+gap:10px;
 }
 
 .project-number{
@@ -979,6 +993,7 @@ display:flex;
 align-items:center;
 justify-content:space-between;
 gap:15px;
+flex-wrap:wrap;
 }
 
 .project-type{
@@ -1027,7 +1042,7 @@ background:rgba(11,8,16,.75);
 max-width:1100px;
 margin:auto;
 display:grid;
-grid-template-columns:repeat(3,1fr);
+grid-template-columns:repeat(3,minmax(0,1fr));
 gap:22px;
 }
 
@@ -1133,6 +1148,7 @@ margin-bottom:22px;
 .contact-icon{
 width:48px;
 height:48px;
+flex-shrink:0;
 border-radius:12px;
 background:rgba(255,79,163,.1);
 display:flex;
@@ -1216,13 +1232,6 @@ font-size:30px;
 font-weight:800;
 }
 
-.footer-logo span{
-background:var(--gradient);
-background-clip:text;
--webkit-background-clip:text;
-color:transparent;
-}
-
 footer p{
 font-size:12px;
 color:var(--muted);
@@ -1281,7 +1290,7 @@ visibility:visible;
 transform:translateY(0);
 }
 
-/* REVEAL */
+/* REVEAL ANIMATIONS */
 
 .reveal{
 opacity:0;
@@ -1294,18 +1303,26 @@ opacity:1;
 transform:translateY(0);
 }
 
-/* RESPONSIVE */
+/* TABLET */
 
 @media(max-width:1000px){
 nav{padding:0 5%}
 .nav-links{gap:20px}
 section{padding:95px 6%}
 .hero-container{gap:35px}
+.image-ring{width:clamp(250px,36vw,350px)}
 }
 
+/* MOBILE */
+
 @media(max-width:768px){
+
 nav{height:75px}
-.menu-btn{display:block}
+
+.menu-btn{
+display:block;
+}
+
 .nav-links{
 position:absolute;
 top:75px;
@@ -1320,78 +1337,260 @@ flex-direction:column;
 align-items:stretch;
 gap:0;
 }
-.nav-links.open{display:flex}
+
+.nav-links.open{
+display:flex;
+}
+
 .nav-links a{
 padding:17px 0;
 border-bottom:1px solid var(--border);
 }
+
 .nav-contact{
 text-align:center;
 margin-top:15px;
 }
+
 .hero{
 min-height:auto;
 padding-top:125px;
 padding-bottom:100px;
 }
+
 .hero-container{
-grid-template-columns:1fr;
+grid-template-columns:minmax(0,1fr);
 text-align:center;
 gap:45px;
 }
+
 .hero-content{order:2}
 .hero-image{order:1}
+
 .hero h1{
 font-size:clamp(43px,10vw,66px);
 letter-spacing:-2px;
 }
+
 .hero-description{
 margin-left:auto;
 margin-right:auto;
 }
-.hero-buttons,.socials{justify-content:center}
-.image-ring{width:270px}
-.floating-card{right:-10px}
-.image-tag{left:-10px}
+
+.hero-buttons,
+.socials{
+justify-content:center;
+}
+
+.hero-image{
+padding:15px 25px;
+}
+
+.image-ring{
+width:min(340px,75vw);
+}
+
+.floating-card{
+right:0;
+top:12%;
+}
+
+.image-tag{
+left:0;
+bottom:10%;
+}
+
 .scroll-indicator{display:none}
-.about-container{grid-template-columns:1fr}
+
+.about-container{
+grid-template-columns:1fr;
+}
+
 .about-visual{min-height:290px}
-.skills-container{grid-template-columns:repeat(2,1fr)}
-.project-grid{grid-template-columns:1fr}
-.service-grid{grid-template-columns:1fr}
-.contact-container{grid-template-columns:1fr}
+
+.skills-container{
+grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.project-grid{
+grid-template-columns:1fr;
+}
+
+.service-grid{
+grid-template-columns:1fr;
+}
+
+.contact-container{
+grid-template-columns:1fr;
+}
+
 .project-image{height:260px}
 }
 
-@media(max-width:420px){
-section{padding:85px 6%}
-.hero h1{letter-spacing:-2px}
-.image-ring{width:235px}
-.floating-card,.image-tag{
-font-size:10px;
-padding:12px;
+/* SMALL PHONES */
+
+@media(max-width:480px){
+
+section{
+padding:85px 6%;
 }
-.skills-container{gap:12px}
-.skill-card{padding:25px 10px}
-.skill-card i{font-size:34px}
-.project-content{padding:20px}
-.project-image{height:220px}
-.project-image-title h3{font-size:26px}
+
+.hero{
+padding-top:115px;
+}
+
+.hero h1{
+font-size:clamp(39px,11vw,52px);
+letter-spacing:-2px;
+}
+
+.hero h2{
+font-size:19px;
+}
+
+.hero-description{
+font-size:13px;
+}
+
+.hero-buttons{
+flex-direction:column;
+}
+
+.hero-buttons .btn{
+width:100%;
+}
+
+.hero-image{
+padding:15px 25px;
+}
+
+.image-ring{
+width:min(290px,76vw);
+padding:7px;
+}
+
+.image-inner{
+padding:4px;
+}
+
+.floating-card,
+.image-tag{
+font-size:10px;
+padding:11px 12px;
+}
+
+.floating-card{
+right:-3px;
+}
+
+.image-tag{
+left:-3px;
+}
+
+.skills-container{
+gap:12px;
+}
+
+.skill-card{
+padding:25px 10px;
+}
+
+.skill-card i{
+font-size:34px;
+}
+
+.project-content{
+padding:20px;
+}
+
+.project-image{
+height:220px;
+}
+
+.project-image-title h3{
+font-size:26px;
+}
+
+.project-top{
+left:10px;
+right:10px;
+top:10px;
+}
+
+.project-number,
+.project-status{
+font-size:8px;
+padding:8px;
+}
+
 .project-footer{
 align-items:flex-start;
 flex-direction:column;
 }
-.contact-form{padding:22px}
-.about-details{grid-template-columns:1fr}
+
+.contact-form{
+padding:22px;
 }
 
+.about-details{
+grid-template-columns:1fr;
+}
+
+.section-heading small{
+letter-spacing:3px;
+}
+
+.section-heading h2{
+letter-spacing:-1px;
+}
+
+footer{
+padding:40px 6%;
+}
+}
+
+/* VERY SMALL SCREENS */
+
+@media(max-width:350px){
+
+.logo{
+font-size:25px;
+}
+
+.image-ring{
+width:230px;
+}
+
+.floating-card{
+right:-8px;
+}
+
+.image-tag{
+left:-8px;
+}
+
+.hero h1{
+font-size:37px;
+}
+
+.project-status{
+display:none;
+}
+}
+
+/* ACCESSIBILITY */
+
 @media(prefers-reduced-motion:reduce){
-*,*::before,*::after{
+
+*,
+*::before,
+*::after{
 animation-duration:.01ms!important;
 animation-iteration-count:1!important;
 scroll-behavior:auto!important;
 transition-duration:.01ms!important;
 }
+
 .reveal{
 opacity:1;
 transform:none;
@@ -1423,7 +1622,7 @@ transform:none;
 <a href="#contact" class="nav-contact">Let's Talk <i class="fas fa-arrow-up-right-from-square"></i></a>
 </div>
 
-<button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">
+<button class="menu-btn" id="menuBtn" aria-label="Toggle navigation" aria-expanded="false">
 <i class="fas fa-bars"></i>
 </button>
 </nav>
@@ -1433,6 +1632,7 @@ transform:none;
 <!-- HERO -->
 
 <section class="hero" id="home">
+
 <div class="hero-container">
 
 <div class="hero-content reveal">
@@ -1469,10 +1669,11 @@ I transform creative ideas into beautiful, functional and interactive digital ex
 </div>
 
 <div class="hero-image reveal">
+
 <div class="image-ring">
 <div class="image-inner">
 <div class="profile-placeholder">
-<img src="./Screenshot 2026-05-03 000902.png" alt="">
+<img src="./Screenshot 2026-05-03 000902.png" alt="Rufai Adeola Rachel">
 </div>
 </div>
 </div>
@@ -1484,6 +1685,7 @@ I transform creative ideas into beautiful, functional and interactive digital ex
 <div class="image-tag">
 <i class="fas fa-sparkles"></i> Creating with passion
 </div>
+
 </div>
 
 </div>
@@ -1491,6 +1693,7 @@ I transform creative ideas into beautiful, functional and interactive digital ex
 <div class="scroll-indicator">
 SCROLL TO EXPLORE <i class="fas fa-arrow-down"></i>
 </div>
+
 </section>
 
 <!-- MARQUEE -->
@@ -1529,6 +1732,7 @@ SCROLL TO EXPLORE <i class="fas fa-arrow-down"></i>
 </div>
 
 <div class="about-text reveal">
+
 <h3>Passionate about creating <span>digital experiences.</span></h3>
 
 <p>
@@ -1544,25 +1748,29 @@ My goal is to build digital products that don't just look beautiful but also pro
 </p>
 
 <div class="about-details">
+
 <div class="detail">
 <strong>NAME</strong>
 <span>Rufai Adeola Rachel</span>
 </div>
+
 <div class="detail">
 <strong>ROLE</strong>
 <span>Frontend Developer</span>
 </div>
+
 <div class="detail">
 <strong>LOCATION</strong>
 <span>Nigeria</span>
 </div>
+
 <div class="detail">
 <strong>INTEREST</strong>
 <span>Web Development & Design</span>
 </div>
-</div>
-</div>
 
+</div>
+</div>
 </div>
 </section>
 
@@ -1649,8 +1857,7 @@ My goal is to build digital products that don't just look beautiful but also pro
 <img
 src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85"
 alt="Fresh food ingredients and vegetables for the ERRANDGO food marketplace"
-loading="lazy"
-onerror="this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=80'">
+loading="lazy">
 
 <div class="project-top">
 <span class="project-number">01 / 04</span>
@@ -1693,8 +1900,7 @@ EXPLORE WEBSITE <i class="fas fa-arrow-up-right-from-square"></i>
 <img
 src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=85"
 alt="Modern computers and collaborative digital workspace"
-loading="lazy"
-onerror="this.src='https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80'">
+loading="lazy">
 
 <div class="project-top">
 <span class="project-number">02 / 04</span>
@@ -1737,8 +1943,7 @@ EXPLORE WEBSITE <i class="fas fa-arrow-up-right-from-square"></i>
 <img
 src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=85"
 alt="Laptop and digital learning workspace representing the Learvix computing platform"
-loading="lazy"
-onerror="this.src='https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=1200&q=80'">
+loading="lazy">
 
 <div class="project-top">
 <span class="project-number">03 / 04</span>
@@ -1781,8 +1986,7 @@ EXPLORE WEBSITE <i class="fas fa-arrow-up-right-from-square"></i>
 <img
 src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=85"
 alt="Luxury vehicle representing the Carivo car rental and sales marketplace"
-loading="lazy"
-onerror="this.src='https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80'">
+loading="lazy">
 
 <div class="project-top">
 <span class="project-number">04 / 04</span>
@@ -1876,6 +2080,7 @@ EXPLORE WEBSITE <i class="fas fa-arrow-up-right-from-square"></i>
 <div class="contact-container">
 
 <div class="contact-info reveal">
+
 <h3>Let's talk about your next project.</h3>
 
 <p>
@@ -1891,18 +2096,18 @@ I'm open to opportunities, collaborations and conversations about building great
 </div>
 
 <div class="contact-item">
-    <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
+<div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
 <div>
-    <small>Whatsapp</small>
+<small>WhatsApp</small>
 <strong>08031484207 or 07074224282</strong>
 </div>
-
 </div>
+
 <div class="contact-item">
 <div class="contact-icon"><i class="fas fa-location-dot"></i></div>
 <div>
 <small>Location</small>
-<strong>ABUAD,Nigeria</strong>
+<strong>ABUAD, Nigeria</strong>
 </div>
 </div>
 
@@ -1913,6 +2118,7 @@ I'm open to opportunities, collaborations and conversations about building great
 <strong>Frontend Developer</strong>
 </div>
 </div>
+
 </div>
 
 <form class="contact-form" id="contactForm">
@@ -1942,6 +2148,7 @@ Send Message <i class="fas fa-paper-plane"></i>
 </button>
 
 </form>
+
 </div>
 </section>
 
@@ -1950,6 +2157,7 @@ Send Message <i class="fas fa-paper-plane"></i>
 <!-- FOOTER -->
 
 <footer>
+
 <div class="footer-logo">RACHEL<span>.</span></div>
 
 <p>Building beautiful digital experiences, one line of code at a time.</p>
@@ -1961,6 +2169,7 @@ Send Message <i class="fas fa-paper-plane"></i>
 </div>
 
 <p>© <span id="year"></span> Rufai Adeola Rachel. All rights reserved.</p>
+
 </footer>
 
 <button class="back-top" id="backTop" aria-label="Back to top">
@@ -1969,7 +2178,7 @@ Send Message <i class="fas fa-paper-plane"></i>
 
 <script>
 
-/* ANIMATED PARTICLE BACKGROUND */
+/* PARTICLE BACKGROUND */
 
 const canvas=document.getElementById("backgroundCanvas");
 const ctx=canvas.getContext("2d");
@@ -1991,7 +2200,7 @@ const amount=Math.min(90,Math.floor(window.innerWidth/15));
 particles=Array.from({length:amount},()=>({
 x:Math.random()*window.innerWidth,
 y:Math.random()*window.innerHeight,
-size:Math.random()*2+0.5,
+size:Math.random()*2+.5,
 speed:Math.random()*.4+.08,
 drift:(Math.random()-.5)*.4,
 alpha:Math.random()*.5+.2
@@ -1999,6 +2208,7 @@ alpha:Math.random()*.5+.2
 }
 
 function animateBackground(){
+
 const width=window.innerWidth;
 const height=window.innerHeight;
 
@@ -2007,6 +2217,7 @@ ctx.clearRect(0,0,width,height);
 particles.forEach((particle,index)=>{
 
 if(!reducedMotion){
+
 particle.y-=particle.speed;
 particle.x+=particle.drift+Math.sin((frame+index*20)*.006)*.15;
 
@@ -2017,15 +2228,18 @@ particle.x=Math.random()*width;
 
 if(particle.x<-10)particle.x=width+10;
 if(particle.x>width+10)particle.x=-10;
+
 }
 
 ctx.beginPath();
 ctx.arc(particle.x,particle.y,particle.size,0,Math.PI*2);
 ctx.fillStyle=`rgba(218,151,255,${particle.alpha})`;
 ctx.fill();
+
 });
 
 for(let i=0;i<particles.length;i++){
+
 for(let j=i+1;j<particles.length;j++){
 
 const a=particles[i];
@@ -2036,14 +2250,18 @@ const dy=a.y-b.y;
 const distance=Math.sqrt(dx*dx+dy*dy);
 
 if(distance<120){
+
 ctx.beginPath();
 ctx.moveTo(a.x,a.y);
 ctx.lineTo(b.x,b.y);
 ctx.strokeStyle=`rgba(190,112,255,${(1-distance/120)*.15})`;
 ctx.lineWidth=.7;
 ctx.stroke();
+
 }
+
 }
+
 }
 
 frame++;
@@ -2051,6 +2269,7 @@ frame++;
 if(!reducedMotion){
 requestAnimationFrame(animateBackground);
 }
+
 }
 
 resizeCanvas();
@@ -2061,9 +2280,11 @@ window.addEventListener("resize",resizeCanvas);
 /* LOADER */
 
 window.addEventListener("load",()=>{
+
 const loader=document.getElementById("loader");
 
 setTimeout(()=>{
+
 loader.style.opacity="0";
 
 setTimeout(()=>{
@@ -2071,6 +2292,7 @@ loader.style.display="none";
 },800);
 
 },500);
+
 });
 
 /* MOBILE MENU */
@@ -2079,6 +2301,7 @@ const menuBtn=document.getElementById("menuBtn");
 const navLinks=document.getElementById("navLinks");
 
 menuBtn.addEventListener("click",()=>{
+
 const open=navLinks.classList.toggle("open");
 
 menuBtn.setAttribute("aria-expanded",open);
@@ -2086,14 +2309,19 @@ menuBtn.setAttribute("aria-expanded",open);
 menuBtn.innerHTML=open
 ?'<i class="fas fa-xmark"></i>'
 :'<i class="fas fa-bars"></i>';
+
 });
 
 document.querySelectorAll(".nav-links a").forEach(link=>{
+
 link.addEventListener("click",()=>{
+
 navLinks.classList.remove("open");
 menuBtn.setAttribute("aria-expanded","false");
 menuBtn.innerHTML='<i class="fas fa-bars"></i>';
+
 });
+
 });
 
 /* TYPING EFFECT */
@@ -2117,24 +2345,32 @@ const current=words[wordIndex];
 typing.textContent=current.substring(0,charIndex);
 
 if(!deleting){
+
 charIndex++;
 
 if(charIndex>current.length){
+
 deleting=true;
 setTimeout(typeEffect,1300);
 return;
+
 }
 
 }else{
+
 charIndex--;
 
 if(charIndex===0){
+
 deleting=false;
 wordIndex=(wordIndex+1)%words.length;
+
 }
+
 }
 
 setTimeout(typeEffect,deleting?55:100);
+
 }
 
 if(!reducedMotion){
@@ -2146,14 +2382,18 @@ document.getElementById("typing").textContent=words[0];
 /* SCROLL REVEAL */
 
 const observer=new IntersectionObserver(entries=>{
+
 entries.forEach(entry=>{
 
 if(entry.isIntersecting){
+
 entry.target.classList.add("visible");
 observer.unobserve(entry.target);
+
 }
 
 });
+
 },{threshold:.12});
 
 document.querySelectorAll(".reveal").forEach(element=>{
@@ -2162,7 +2402,7 @@ observer.observe(element);
 
 /* SCROLL PROGRESS */
 
-window.addEventListener("scroll",()=>{
+function updateProgress(){
 
 const scrollTop=window.scrollY;
 const totalHeight=document.documentElement.scrollHeight-window.innerHeight;
@@ -2171,7 +2411,9 @@ const progress=totalHeight>0?(scrollTop/totalHeight)*100:0;
 
 document.getElementById("progressBar").style.width=progress+"%";
 
-});
+}
+
+window.addEventListener("scroll",updateProgress);
 
 /* CURSOR GLOW */
 
@@ -2180,12 +2422,16 @@ const glow=document.getElementById("cursorGlow");
 if(window.matchMedia("(pointer:fine)").matches){
 
 window.addEventListener("mousemove",event=>{
+
 glow.style.left=event.clientX+"px";
 glow.style.top=event.clientY+"px";
+
 });
 
 }else{
+
 glow.style.display="none";
+
 }
 
 /* PROJECT 3D HOVER */
@@ -2228,10 +2474,12 @@ backTop.classList.toggle("show",window.scrollY>400);
 });
 
 backTop.addEventListener("click",()=>{
+
 window.scrollTo({
 top:0,
 behavior:"smooth"
 });
+
 });
 
 /* CURRENT YEAR */
@@ -2258,27 +2506,30 @@ current=section.getAttribute("id");
 });
 
 links.forEach(link=>{
+
 link.classList.toggle(
 "active",
 link.getAttribute("href")==="#"+current
 );
+
 });
 
 });
 
 /* CONTACT FORM */
 
-document.getElementById("contactForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+document.getElementById("contactForm").addEventListener("submit",function(event){
 
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const subject = document.getElementById("subject").value.trim();
-    const message = document.getElementById("message").value.trim();
+event.preventDefault();
 
-    const recipient = "rufaiadeola09@gmail.com";
+const name=document.getElementById("name").value.trim();
+const email=document.getElementById("email").value.trim();
+const subject=document.getElementById("subject").value.trim();
+const message=document.getElementById("message").value.trim();
 
-    const body = `Hello Rachel,
+const recipient="Rufaiadeola09@gmail.com";
+
+const body=`Hello Rachel,
 
 My name is ${name}.
 My email address is ${email}.
@@ -2289,10 +2540,12 @@ ${message}
 Regards,
 ${name}`;
 
-    const mailto = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+const mailto=`mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-    window.location.href = mailto;
+window.location.href=mailto;
+
 });
+
 </script>
 
 </body>
